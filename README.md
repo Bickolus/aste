@@ -1,2 +1,1 @@
-# aste
-A.S.T.E - A Simple Text Editor
+# A.S.T.E.A - A Simple Text Editor
