@@ -10,7 +10,7 @@ A video walkthrough has been recorded to demonstrate its functions.
 
 > Github Repository Link: [https://github.com/Bickolus/astea](https://github.com/Bickolus/astea)
 >
-> Deployed Site Link: 
+> Deployed Site Link: [https://astea.herokuapp.com/](https://astea.herokuapp.com/)
 
 ## Table of Contents
 
