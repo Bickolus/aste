@@ -1,11 +1,7 @@
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const WebpackPwaManifest = require("webpack-pwa-manifest");
 const path = require("path");
-const { InjectManifest, GenerateSW } = require("workbox-webpack-plugin");
-const MiniCssExtractPlugin = require("mini-css-extract-plugin");
-
-// TODO: Add and configure workbox plugins for a service worker and manifest file.
-// TODO: Add CSS loaders and babel to webpack.
+const { InjectManifest } = require("workbox-webpack-plugin");
 
 module.exports = () => {
   return {
@@ -19,40 +15,42 @@ module.exports = () => {
       path: path.resolve(__dirname, "dist"),
     },
     plugins: [
-      // Insert HtmlWebPackPlugin here
+      // Insert webpackplugin here
       new HtmlWebpackPlugin({
         template: "./index.html",
         title: "JATE",
       }),
-      new MiniCssExtractPlugin(),
+      // Finalizes and injects the service worker from src-sw.js
+      new InjectManifest({
+        swSrc: "./src-sw.js",
+        swDest: "src-sw.js",
+      }),
+      // Generates a manifest.json file
       new WebpackPwaManifest({
-        name: "A Short Text Editing Application",
-        short_name: "ASTEA",
-        description: "A web app you can use to edit text. Can be used offline!",
-        background_color: "#ffffff",
+        fingerprints: false,
+        inject: true,
+        name: "Just Another Text Editor",
+        short_name: "JATE",
+        description: "Take notes with JavaScript syntax highlighting!",
+        background_color: "#225ca3",
+        theme_color: "#225ca3",
         start_url: "/",
         publicPath: "/",
-        crossorigin: "anonymous",
-        fingerprints: false,
         icons: [
           {
-            src: path.resolve("./src/images/logo.png"),
-            sizes: [96, 128, 256, 384, 512],
+            src: path.resolve("src/images/logo.png"),
+            sizes: [96, 128, 192, 256, 384, 512], // Generate multiple sizes of these icons
             destination: path.join("assets", "icons"),
           },
         ],
       }),
-      new InjectManifest({
-        swSrc: './src-sw.js',
-        swDest: 'src-sw.js',
-      }), 
-      new GenerateSW(),
     ],
 
     module: {
+      // Babel stuff here
       rules: [
         {
-          test: /\.css$/i,
+          test: /\.css$/,
           use: ["style-loader", "css-loader"],
         },
         {
